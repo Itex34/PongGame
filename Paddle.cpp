@@ -6,29 +6,30 @@ Paddle::~Paddle() {}
 
 void Paddle::update() {
     const Uint8* state = SDL_GetKeyboardState(nullptr);
-    if (state[SDL_SCANCODE_LEFT]) {
+    if (state[SDL_SCANCODE_A]) {
         playerPaddleAngle -= 2;
     }
-    if (state[SDL_SCANCODE_RIGHT]) {
+    if (state[SDL_SCANCODE_D]) {
         playerPaddleAngle += 2;
     }
 
-    if (playerPaddleY <= 650) {
-        if (state[SDL_SCANCODE_DOWN]) {
-            playerPaddleY += 4;
+    if (playerPaddleY <= 550) {
+        if (state[SDL_SCANCODE_S]) {
+            playerPaddleY += 16;
         }
     }
 
-    if (playerPaddleY >= 50) {
-        if (state[SDL_SCANCODE_UP]) {
-            playerPaddleY -= 4;
+    if (playerPaddleY >= 0) {
+        if (state[SDL_SCANCODE_W]) {
+            playerPaddleY -= 16;
         }
     }
 }
 
 void Paddle::render(SDL_Renderer* renderer, int windowWidth, int windowHeight) {
     if (texture != nullptr) {
-        SDL_Rect dstRect = { 20, playerPaddleY, width, height };
+        dstRect = {( 0 - width / 2) + 100, playerPaddleY, width, height};
+
         SDL_Point center = { width / 2, height / 2 };
 
         SDL_RenderCopyEx(renderer, texture, nullptr, &dstRect, playerPaddleAngle, &center, SDL_FLIP_NONE);
@@ -49,9 +50,13 @@ bool Paddle::loadTexture(SDL_Renderer* renderer, const std::string& filePath) {
         return false;
     }
 
-    width = surface->w;
-    height = surface->h;
+    //width = surface->w;
+    //height = surface->h;
 
     SDL_FreeSurface(surface);
     return true;
+}
+
+SDL_Rect Paddle::getRect() const {
+    return dstRect;
 }
