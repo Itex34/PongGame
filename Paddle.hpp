@@ -12,16 +12,15 @@ public:
     void update();
     void render(SDL_Renderer* renderer, int windowWidth, int windowHeight);
 
+    SDL_Rect getRect() const;
     bool loadTexture(SDL_Renderer* renderer, const std::string& filePath);
 
+    int playerPaddleY = 700 / 2 + (height / 2);
+    float playerPaddleAngle = 0;
+    
+    SDL_Rect dstRect = { (0 - width / 2) + 100, playerPaddleY, width, height };
 private:
-    SDL_Texture* texture;
-    int width = 100, height = 20;
-
-    float playerPaddleY = 700/2;
-    float playerPaddleAngle = 90;
-
-    float computerPaddleY = 700 / 2;
-    float computerPaddleAngle = 90;
+    SDL_Texture* texture = nullptr;
+    int width = 15, height = 150;
 };
 
